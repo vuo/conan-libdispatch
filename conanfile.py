@@ -14,8 +14,7 @@ class LibdispatchConan(ConanFile):
     def source(self):
         self.output.info(self.package_folder)
         tools.get('https://github.com/apple/swift-corelibs-libdispatch/archive/swift-%s-RELEASE.tar.gz' % self.version,
-                  # sha256='9e63da11de3e05482411c169f5055bafa7ab08f7319e91bf8819601900f29732'
-                  )
+                  sha256='9e63da11de3e05482411c169f5055bafa7ab08f7319e91bf8819601900f29732')
         with tools.chdir(self.source_dir):
             tools.patch(patch_string='''
 --- dispatch/dispatch.h	2017-10-31 02:44:42.330119073 -0400
