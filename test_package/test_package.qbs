@@ -1,4 +1,4 @@
-import qbs
+import qbs 1.0
 
 Project {
 	minimumQbsVersion: 1.6
@@ -10,8 +10,10 @@ Project {
 		Depends { name: 'ConanBasicSetup' }
 
 		Depends { name: 'cpp' }
-		cpp.compilerPath: '/opt/llvm-3.8.0/bin/clang++'
-		cpp.compilerPathByLanguage: {}
+		cpp.compilerPathByLanguage: ({
+			c: '/opt/llvm-3.8.0/bin/clang',
+			cpp: '/opt/llvm-3.8.0/bin/clang++',
+		})
 		cpp.cxxFlags: [ '-fblocks' ]
 		cpp.cxxStandardLibrary: 'libstdc++'
 		cpp.linkerPath: '/opt/llvm-3.8.0/bin/clang++'
