@@ -3,18 +3,22 @@ import os
 
 class LibdispatchConan(ConanFile):
     name = 'libdispatch'
-    version = '4.0'
+
+    source_version = '4.0.3'
+    package_version = '1'
+    version = '%s-%s' % (source_version, package_version)
+
     settings = 'os', 'compiler', 'build_type', 'arch'
     url = 'https://github.com/vuo/conan-libdispatch'
     license = 'https://github.com/apple/swift-corelibs-libdispatch/blob/master/LICENSE'
     description = 'A library for concurrency on multicore hardware'
-    source_dir = 'swift-corelibs-libdispatch-swift-%s-RELEASE' % version
+    source_dir = 'swift-corelibs-libdispatch-swift-%s-RELEASE' % source_version
     build_dir = '_build'
 
     def source(self):
         self.output.info(self.package_folder)
-        tools.get('https://github.com/apple/swift-corelibs-libdispatch/archive/swift-%s-RELEASE.tar.gz' % self.version,
-                  sha256='9e63da11de3e05482411c169f5055bafa7ab08f7319e91bf8819601900f29732')
+        tools.get('https://github.com/apple/swift-corelibs-libdispatch/archive/swift-%s-RELEASE.tar.gz' % self.source_version,
+                  sha256='0a6d503f7ec4ce367a4aa63f68478ce7c998ec36a60b0b01445e048ab69600a8')
         with tools.chdir(self.source_dir):
             tools.patch(patch_string='''
 --- dispatch/dispatch.h	2017-10-31 02:44:42.330119073 -0400
@@ -40,11 +44,11 @@ class LibdispatchConan(ConanFile):
         tools.mkdir(self.build_dir)
         with tools.chdir(self.build_dir):
             autotools = AutoToolsBuildEnvironment(self)
-            autotools.cxx_flags.append('-Oz')
+            autotools.flags.append('-Oz')
 
             env_vars = {
-                'CC' : '/opt/llvm-3.8.0/bin/clang',
-                'CXX': '/opt/llvm-3.8.0/bin/clang++',
+                'CC' : '/usr/bin/clang-5.0',
+                'CXX': '/usr/bin/clang++-5.0',
             }
             with tools.environment_append(env_vars):
                 autotools.configure(configure_dir='../%s' % self.source_dir,
