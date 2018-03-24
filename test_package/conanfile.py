@@ -10,7 +10,7 @@ class LibdispatchTestConan(ConanFile):
         self.copy('*', src='lib', dst='lib')
 
     def test(self):
-        self.run('qbs run')
+        self.run('qbs run -f "%s"' % self.source_folder)
 
         # Ensure we only link to system libraries.
         self.run('! (ldd lib/libdispatch.so | grep "/" | egrep -v "\s/lib64/")')
