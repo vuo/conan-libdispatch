@@ -6,16 +6,23 @@ addons:
     apt:
         sources:
             - llvm-toolchain-trusty-5.0
+            - sourceline: 'ppa:beineri/opt-qt594-trusty'
         packages:
             - clang-5.0
             - libbsd-dev
             - libkqueue-dev
+            - qt59qbs
 
 before_install:
     - pip install conan
 
 install:
     - conan config install https://vuo.org/sites/default/files/conan-linux.zip
+    - . /opt/qt59/bin/qt59-env.sh
+    - qbs --version
+    - qbs setup-qt --detect
+    - qbs setup-toolchains --detect
+    - qbs config defaultProfile clang
     - conan user
 
 script:
