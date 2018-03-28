@@ -40,6 +40,8 @@ class LibdispatchConan(ConanFile):
             ''')
             self.run('sh autogen.sh')
 
+        self.run('mv %s/LICENSE %s/%s.txt' % (self.source_dir, self.source_dir, self.name))
+
     def build(self):
         tools.mkdir(self.build_dir)
         with tools.chdir(self.build_dir):
@@ -62,6 +64,7 @@ class LibdispatchConan(ConanFile):
     def package(self):
         self.copy('*.h', src='%s/include' % self.build_dir, dst='include')
         self.copy('libdispatch.so', src='%s/lib' % self.build_dir, dst='lib')
+        self.copy('%s.txt' % self.name, src=self.source_dir, dst='license')
 
     def package_info(self):
         self.cpp_info.libs = ['dispatch']
