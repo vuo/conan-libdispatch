@@ -10,7 +10,7 @@ addons:
         packages:
             - clang-5.0
             - libbsd-dev
-            - libc++1
+            - libc++-dev
             - libkqueue-dev
             - qt59qbs
 
