@@ -14,3 +14,4 @@ class LibdispatchTestConan(ConanFile):
 
         # Ensure we only link to system libraries.
         self.run('! (ldd lib/libdispatch.so | grep "/" | egrep -v "(\s(/lib64/|(/usr)?/lib/x86_64-linux-gnu/)|test_package/build)")')
+        self.run('! (ldd lib/libdispatch.so | fgrep "libstdc++")')
